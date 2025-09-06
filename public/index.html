@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SMS Boom API</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+    input, button { padding: 10px; margin: 5px; }
+    #result { margin-top: 20px; white-space: pre-wrap; text-align: left; }
+  </style>
+</head>
+<body>
+  <h1>SMS Boom API</h1>
+  <input type="text" id="sdt" placeholder="Nhập số điện thoại">
+  <input type="number" id="lan" placeholder="Số lần gửi (1-10)" min="1" max="10">
+  <button onclick="sendSpam()">Gửi</button>
+  <div id="result"></div>
+
+  <script>
+    async function sendSpam() {
+      const sdt = document.getElementById('sdt').value;
+      const lan = document.getElementById('lan').value;
+      const resultDiv = document.getElementById('result');
+      resultDiv.textContent = 'Đang gửi...';
+
+      try {
+        const response = await fetch(`/spam?sdt=${sdt}&lan=${lan}`);
+        const data = await response.json();
+        resultDiv.textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        resultDiv.textContent = `Lỗi: ${err.message}`;
+      }
+    }
+  </script>
+</body>
+</html>
